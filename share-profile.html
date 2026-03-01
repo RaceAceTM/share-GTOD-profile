@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>View on GTOD</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0a0a0a;
+      color: #e4e4e7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      margin: 0;
+    }
+    .card {
+      max-width: 360px;
+      text-align: center;
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 8px; color: #fff; }
+    p { color: #a1a1aa; margin-bottom: 24px; line-height: 1.5; }
+    .btn {
+      display: inline-block;
+      background: #10b981;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+    .btn:hover { background: #059669; }
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid #3f3f46;
+      color: #a1a1aa;
+    }
+    .btn-secondary:hover { border-color: #52525b; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>View profile on GTOD</h1>
+    <p id="msg">Open this profile in the GTOD app to connect.</p>
+    <a id="openBtn" href="#" class="btn">Open in GTOD</a>
+    <br>
+    <a href="https://apps.apple.com/app/gtod/idXXXXXXXX" class="btn btn-secondary">Download for iOS</a>
+    <br>
+    <a href="https://play.google.com/store/apps/details?id=com.gtod.fitness" class="btn btn-secondary">Download for Android</a>
+  </div>
+  <script>
+    (function() {
+      const params = new URLSearchParams(location.search);
+      const u = params.get('u');
+      if (u) {
+        const appUrl = 'gtod://user/' + u;
+        document.getElementById('openBtn').href = appUrl;
+        document.getElementById('openBtn').onclick = function() {
+          window.location.href = appUrl;
+          setTimeout(function() {
+            document.getElementById('msg').textContent = "If the app didn't open, install GTOD from the links below.";
+          }, 1500);
+          return false;
+        };
+      } else {
+        document.getElementById('msg').textContent = "Invalid link. Get the GTOD app to share your profile.";
+        document.getElementById('openBtn').style.display = 'none';
+      }
+    })();
+  </script>
+</body>
+</html>
